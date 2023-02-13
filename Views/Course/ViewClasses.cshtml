@@ -1,0 +1,34 @@
+﻿@using EDUZilla.ViewModels.Class
+@{
+    ViewData["Title"] = "Lista klas";
+}
+
+<h1>@languageResource["ClassList"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">@languageResource["ClassAssigned"]: @Model.courseName</th>
+            <th scope="col">@languageResource["Actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(ClassListViewModel group in Model.classes)
+        {
+            var routeValues = new Dictionary<string, string>
+            {
+              {"courseId", "" + Model.courseId},
+              {"classId", "" + group.Id}
+            };
+
+            <tr>
+                <td><a>@group.Name</a></td>
+                <td>
+                    <a class="btn btn-primary" asp-action="ClassesGrades" asp-controller="Grade" asp-all-route-data="routeValues">@languageResource["Grades"]</a>
+                    <a class="btn btn-primary" asp-action="ClassGradesSummary" asp-controller="Grade" asp-all-route-data="routeValues">Podsumowanie</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-secondary" asp-action="Index" asp-controller="Teacher">@languageResource["Back"]</a>

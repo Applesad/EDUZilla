@@ -1,0 +1,31 @@
+﻿@using EDUZilla.ViewModels.Course
+
+@{
+    ViewData["Title"] = @languageResource["Courses"];
+}
+
+<form method="post" asp-controller="Course" asp-action="AddCourse">
+    <div class="input-group mb-3">
+        <label class="input-group-text">@languageResource["AddCourse"]</label>
+        <input name="name" type="text" placeholder="@languageResource["CourseName"]" class="form-control" />
+        <button type="submit" class="btn btn-primary">@languageResource["Add"]</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">@languageResource["Name"]</th>
+            <th scope="col">@languageResource["Edit"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(CourseListViewModel course in Model)
+        {
+            <tr>
+                <td>@course.Name</td>
+                <td><a asp-action="EditCourse" asp-route-id="@course.Id">@languageResource["Edit"]</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

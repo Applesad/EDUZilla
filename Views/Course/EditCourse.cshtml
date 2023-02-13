@@ -1,0 +1,125 @@
+﻿@using EDUZilla.ViewModels.Class
+@using EDUZilla.ViewModels.Course
+@using EDUZilla.ViewModels.Teacher
+@model EditCourseViewModel
+@{
+    ViewData["Title"] = "Edytuj przedmiot";
+}
+<form method="post" asp-action="ChangeName">
+    <input type="hidden" name=id value="@Model.Id"/>
+    <label class="form-label">@languageResource["Name"]:</label>
+    <div class="mb-3 input-group">
+        <input class="form-control" name="newName" type="text" value="@Model.Name" placeholder=@languageResource["SubjectName"] />
+        <button type="submit" class="btn btn-success">@languageResource["Save"]</button>
+    </div>
+</form>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labeledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@languageResource["DeleteSubject"]?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>@languageResource["UndoAction"]!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@languageResource["Cancel"]</button>
+                <form method="post" asp-action="DeleteCourse" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-danger">@languageResource["Delete"]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">@languageResource["LeadTeacher"]</th>
+            <th scope="col">@languageResource["Actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Teachers.Any())
+        {
+            <tr>
+                <td>@languageResource["NoLeadTeachers"]</td>
+            </tr>
+        }
+        @foreach (TeacherListViewModel teacher in Model.Teachers)
+        {
+            @*var routeValues = new Dictionary<string, string>
+            {
+              {"id", "" + Model.Id},
+              {"teacherId", teacher.Id}
+            };*@
+
+            <form method="post" asp-controller="Course" asp-action="DeleteTeacher">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden" name="teacherId" value="@teacher.Id" />
+            <tr>
+                <td>@teacher.FirstName @teacher.LastName (<i>@teacher.Email</i>)</td>
+                <td><button type="submit">@languageResource["Delete"]</button></td>
+            </tr>
+            </form>
+
+        }
+    </tbody>
+</table>
+
+<form method="post" asp-controller="Course" asp-action="AddTeacher">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="input-group mb-3">
+        <label class="input-group-text">@languageResource["AddLeadTeacher"]</label>
+        <select class="form-select" asp-items="Model.AvailableTeachers" name="teacherId"></select>
+        <button type="submit" class="btn btn-success">@languageResource["Add"]</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">@languageResource["ClassName"]</th>
+            <th scope="col">@languageResource["Actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Classes.Any())
+        {
+            <tr>
+                <td>@languageResource["NoClasses"]</td>
+            </tr>
+        }
+        @foreach (ClassListViewModel group in Model.Classes)
+        {
+            @*var routeValues = new Dictionary<string, string>
+            {
+              {"id", "" + Model.Id},
+              {"teacherId", teacher.Id}
+            };*@
+
+            <form method="post" asp-controller="Course" asp-action="DeleteClass">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden" name="classId" value="@group.Id" />
+            <tr>
+                <td>@group.Name</td>
+                <td><button type="submit">@languageResource["Delete"]</button></td>
+            </tr>
+            </form>
+
+        }
+    </tbody>
+</table>
+
+<form method="post" asp-controller="Course" asp-action="AddClass">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="input-group mb-3">
+        <label class="input-group-text">@languageResource["AssignSubject"]</label>
+        <select class="form-select" asp-items="Model.AvailableClasses"  name="classId"></select>
+        <button type="submit" class="btn btn-success">@languageResource["Add"]</button>
+    </div>
+</form>
+
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">@languageResource["Delete"]</button>
+

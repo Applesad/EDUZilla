@@ -1,0 +1,51 @@
+﻿@using EDUZilla.ViewModels.Grade
+@using EDUZilla.ViewModels.Student
+
+@{
+    ViewData["Title"] = @languageResource["Grades"];
+}
+
+<h1>@languageResource["ClassGrades"] @Model.ClassName</h1>
+<h3><b>@Model.CourseName</b></h3>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="auto">@languageResource["Students"]</th>
+                <th scope="auto">@languageResource["Grades"]</th>
+                <th scope="col">@languageResource["Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (StudentCourseGradesViewModel student in Model.Students)
+            {
+                var routeValues = new Dictionary<string, string>
+                {
+                    {"studentId", "" + student.StudentId},
+                    {"courseId", "" + Model.CourseId},
+                    {"classId", "" + Model.ClassId}
+                };
+                <tr>
+                    <td scope="auto" class="col-3">@student.FirstName @student.LastName</td>
+                    <td scope="auto" class="col-6">
+                        @foreach (GradeViewModel grade in student.Grades)
+                        {
+                            var gradeValues = new Dictionary<string, string>
+                            {
+                                {"id", "" + @grade.Id},
+                                {"courseId", "" + Model.CourseId},
+                                {"classId", "" + Model.ClassId}
+                            };
+                            <a asp-action="GradeDetails" asp-all-route-data="gradeValues" class="badge text-bg-primary text-decoration-none">@grade.Value</a>
+                        }
+                    </td>
+                    <td scope="col">
+                        <a class="btn btn-primary" asp-action="AddGrade" asp-all-route-data="routeValues">@languageResource["AddGrade"]</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-secondary" asp-action="ViewClasses" asp-controller="Course" asp-route-id="@Model.CourseId">@languageResource["Back"]</a>

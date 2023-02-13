@@ -1,0 +1,14 @@
+﻿@using EDUZilla.ViewModels.Student
+@{
+    ViewData["Title"] = "Dodaj ucznia do klasy";
+}
+
+<h1>@languageResource["StudentsList"]</h1>
+@if(Model != null)
+{
+    foreach(StudentListViewModel student in Model)
+    {
+        <div>@student.StudentId @student.FirstName @student.LastName</div>
+    }
+}
+

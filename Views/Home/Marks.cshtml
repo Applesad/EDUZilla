@@ -1,0 +1,45 @@
+﻿@using EDUZilla.ViewModels.User
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Marks";
+}
+ <div>                          
+     <table class="table table-striped" style="width:100%">                            
+         <thead>                                 
+             <tr>                                    
+                 <th scope="col">                                     
+                     @languageResource["Subject"]                                  
+                 </th>                                     
+                 <th scope="col" style="width:60%">                                      
+                    @languageResource["Marks"]                                     
+                 </th>                                     
+                 <th scope="col">          
+                     @languageResource["MarksAverage"]                                 
+                 </th>                                  
+             </tr>                              
+         </thead>                              
+         <tbody>               
+             <tr>                      
+                 <th scope="row">Polish</th>                      
+                 <td>5</td>                      
+                 <td>avg: 5</td>                    
+             </tr>   
+         </tbody>
+          <tbody>               
+             <tr>                      
+                 <th scope="row">Biology</th>                      
+                 <td>5</td>                      
+                 <td>avg: 5</td>                    
+             </tr>   
+         </tbody>
+          <tbody>               
+             <tr>                      
+                 <th scope="row">Maths</th>                      
+                 <td>5</td>                      
+                 <td>avg: 5</td>                    
+             </tr>   
+         </tbody>
+    </table>
+                    
+</div>
